@@ -2,8 +2,13 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-boldonse: "Boldonse", system-ui;
+}
+
 :root {
   --default-transition-duration: 0.4s;
+  --font-boldonse: 'Boldonse', system-ui;
 }
 
 :root,
@@ -15,6 +20,14 @@ html.light {
 html.dark {
   --background: #08080c;
   --foreground: #ededed;
+
+  .text-gradient {
+    background: linear-gradient(90deg, #00d9ff, #9900ff, #00d9ff, #9900ff);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 8s linear infinite alternate;
+  }
 }
 
 body {
@@ -23,3 +36,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   transition: background 0.4s, color 0.4s;
 }
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+

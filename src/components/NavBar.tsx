@@ -9,7 +9,7 @@ const NavBar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="bg-white dark:bg-zinc-950 dark:text-white p-4 fixed w-full top-0 left-0 z-50 shadow-xs transition">
+        <nav className="bg-white dark:bg-zinc-950 dark:text-white p-4 fixed w-full top-0 left-0 z-50 shadow-xs dark:shadow-gray-400 transition">
             <div className="container mx-auto flex justify-between items-center">
                 <Link href="/" className="text-2xl font-bold">{"< Blog / >"}</Link>
 

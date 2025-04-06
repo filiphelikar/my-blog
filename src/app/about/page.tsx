@@ -5,7 +5,7 @@ const About = () => {
     <div className=" mx-auto p-6 text-lg">
       <h1 className="text-3xl md:text-5xl font-bold mb-4 mt-15 text-center">About This Blog</h1>
       <p className="mb-4 text-center md:text-2xl">
-        This blog is a community-driven space where anyone can contribute their thoughts, ideas, or stories. If you'd like to submit your own blog post, simply write it using the simple formatting rules below, and I’ll manually review and publish it.
+        This blog is a community-driven space where anyone can contribute their thoughts, ideas, or stories. If you&#39;d like to submit your own blog post, simply write it using the simple formatting rules below, and I’ll manually review and publish it.
       </p>
       <h2 className="text-2xl md:text-3xl font-semibold mt-15 md:mt-30 mb-2 text-center">How it works?</h2>
         <p className='text-center md:text-2xl'><strong>H1:</strong> Used for the main heading of the blog.</p>

@@ -1,9 +1,12 @@
 import { Blog } from '@/db/schema';
-import { getServersideBlogs } from '@/utils/functions';
 import Link from 'next/link';
 
-const Blogs = async () => {
-    const blogs: Blog[] = await getServersideBlogs()
+interface Props {
+    blogs: Blog[];
+    isAdmin?: boolean;
+}
+
+const Blogs = ({blogs, isAdmin}: Props) => {
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -29,11 +32,12 @@ const Blogs = async () => {
                                 <small className="text-gray-500 dark:text-gray-400">
                                     {blog.author}
                                 </small>
+                                {isAdmin ? <small className="text-gray-500 dark:text-gray-400">{blog.isApproved ? "Approwed" : "Waiting"}</small> : ""}
                                 <Link
-                                    href={`/blogs/${blog.id}`}
+                                    href={isAdmin ?`/admin/blogs/${blog.id}` :`/blogs/${blog.id}`}
                                     className="text-violet-600 dark:text-violet-400 font-semibold hover:underline"
                                 >
-                                    Read more →
+                                   {isAdmin ? "edit" : "Read more →"}
                                 </Link>
                             </div>
                         </div>

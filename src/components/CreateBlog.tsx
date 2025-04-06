@@ -4,13 +4,18 @@ import { Blog } from '@/db/schema'
 import React, { useEffect, useState } from 'react'
 import { z } from 'zod'
 
-const CreateBlog = () => {
+interface Props  {
+  adminBlog?: Blog;
+}
+
+const CreateBlog = ({adminBlog}: Props) => {
   const [text, setText] = useState<string[]>([])
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<boolean>(false)
+  const [isApproved, setIsApproved] = useState(adminBlog?.isApproved)
 
   const blogSchema = z.object({
     title: z.string().min(3, { message: "Title must be at least 3 characters long." }).max(50, { message: "Title must not exceed 50 characters." }),
@@ -48,7 +53,14 @@ const CreateBlog = () => {
         console.error('Failed to parse saved draft', e)
       }
     }
-  }, [])
+
+    if (adminBlog) {
+      setTitle(adminBlog.title)
+      setAuthor(adminBlog.author)
+      setImageUrl(adminBlog.imageUrl)
+      setText(adminBlog.content)
+  }
+  }, [adminBlog])
 
   useEffect(() => {
     const draft = {
@@ -92,8 +104,45 @@ const CreateBlog = () => {
     }
   }
 
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+    setSuccess(false)
+  
+    const result = blogSchema.safeParse(blog)
+    if (!result.success) {
+      setError(result.error.errors[0].message)
+      return
+    }
+  
+    try {
+      const res = await fetch(`/api/all/blogs/`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...blog,
+          isApproved: isApproved,
+          id: adminBlog?.id
+        }),
+      })
+  
+      if (!res.ok) throw new Error('Failed to update blog.')
+  
+      setSuccess(true)
+      localStorage.removeItem('draft-blog')
+      setTitle('')
+      setAuthor('')
+      setImageUrl('')
+      setText([])
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err.message || 'Unknown error')
+    }
+  }
+  
+
   return (
-    <form className="p-4" onSubmit={handleSubmit}>
+    <form className="p-4" onSubmit={adminBlog ? handleUpdate : handleSubmit}>
       <div className='w-fit mx-auto'>
 
          <div className='md:flex w-xs md:w-2xl xl:w-3xl mx-auto mb-2'>
@@ -125,6 +174,7 @@ const CreateBlog = () => {
         placeholder="You can start with: H1: Main heading"
         className="bg-gray-100 dark:bg-gray-900 w-xs md:w-2xl xl:w-3xl min-h-60 md:min-h-80 rounded-xl p-4 block mx-auto text-black dark:text-white"
       />
+      {adminBlog ? <><label>isApproved</label><input onChange={() => setIsApproved(!isApproved)} checked={isApproved} type='checkbox'></input></>  :""}
       
       {error && <p className="text-red-500 mt-2 text-center">{error}</p>}
       {success && <p className="text-green-500 mt-2 text-center">Blog successfully submitted!</p>}
@@ -133,13 +183,13 @@ const CreateBlog = () => {
         type="submit"
         className="mt-4 bg-violet-500 dark:bg-violet-600  text-white px-4 py-2 rounded-xl block float-right hover:bg-violet-700 cursor-pointer"
       >
-        Send Blog
+        {adminBlog ? "Edit" : "Send Blog"}
       </button>
       </div>
      
 
       <h2 className="text-xl mt-10 mb-4">Preview:</h2>
-      <FullBlog blog={blog} />
+      <FullBlog blog={adminBlog ? adminBlog : blog} />
     </form>
   )
 }

@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { blogs } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
@@ -31,5 +32,31 @@ export async function GET(req: Request) {
 }
 
 export async function PUT(req: Request) {
-  //TODO
+    if (!isAuthenticated(req)) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const body = await req.json();
+
+    const { id, title, content, author, imageUrl, isApproved } = body;
+
+    if (!id || !title || !content || !author || !imageUrl) {
+        return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+    }
+
+    try {
+        const result = await db.update(blogs)
+            .set({
+                title,
+                content,
+                author,
+                imageUrl,
+                isApproved
+            })
+            .where(eq(blogs.id, id));
+
+        return NextResponse.json({ message: "Blog updated", result });
+    } catch {
+        return NextResponse.json({ error: "Failed to update blog" }, { status: 500 });
+    }
 }

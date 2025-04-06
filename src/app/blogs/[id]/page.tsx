@@ -11,7 +11,7 @@ interface Params {
 const OneBlog = async ({ params }: Params) => {
     const { id } = await params
 
-    const allBlogs = await getServersideBlogs()
+    const allBlogs = await getServersideBlogs("/api/blogs")
 
     const blog: Blog = allBlogs.find((blog: Blog) => blog.id === Number(id))
 

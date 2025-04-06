@@ -1,15 +1,9 @@
-"use client"
 import { Blog } from '@/db/schema';
-import { getBlogs } from '@/utils/functions';
+import { getServersideBlogs } from '@/utils/functions';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
 
-const Blogs = () => {
-    const [blogs, setBlogs] = useState<Blog[]>([]);
-
-    useEffect(() => {
-        getBlogs().then(setBlogs);
-    }, []);
+const Blogs = async () => {
+    const blogs: Blog[] = await getServersideBlogs()
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -29,7 +23,7 @@ const Blogs = () => {
                                 {blog.title}
                             </h2>
                             <p className="text-gray-600 dark:text-gray-300 line-clamp-3">
-                                {blog.content}
+                            {blog.content.filter((value) => !/^\s*H[12]:|^\s*A\[.*?\]\(.*?\)/.test(value))}
                             </p>
                             <div className="mt-4 flex items-center justify-between">
                                 <small className="text-gray-500 dark:text-gray-400">

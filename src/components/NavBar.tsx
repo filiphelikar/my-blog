@@ -23,7 +23,7 @@ const NavBar: React.FC = () => {
                 <ul className="hidden md:flex space-x-6">
                     <li><Link href="/" className="hover:text-gray-400">Home</Link></li>
                     <li><Link href="/about" className="hover:text-gray-400">About</Link></li>
-                    <li><Link href="/contact" className="hover:text-gray-400">Contact</Link></li>
+                    <li><Link href="/create" className="hover:text-gray-400">Create</Link></li>
                     <ThemeToggle />
                 </ul>
             </div>
@@ -49,7 +49,7 @@ const NavBar: React.FC = () => {
                 </button>
                 <Link onClick={() => setIsOpen(false)} href="/" className="block py-2">Home</Link>
                 <Link onClick={() => setIsOpen(false)} href="/about" className="block py-2">About</Link>
-                <Link onClick={() => setIsOpen(false)} href="/contact" className="block py-2">Contact</Link>
+                <Link onClick={() => setIsOpen(false)} href="/create" className="block py-2">Create</Link>
                 <ThemeToggle />
             </motion.div>
         </nav>

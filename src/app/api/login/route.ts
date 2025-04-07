@@ -6,7 +6,9 @@ export async function POST(req: Request) {
     const { password } = await req.json();
     const storedHash = process.env.ADMIN_PASSWORD_HASH || "";
 
-    console.log(storedHash)
+    // Debug
+    const newHash = await bcrypt.hash(password, 10);
+    console.log("Generated new hash (you can copy this into your .env):", newHash);
 
     const isValid = await bcrypt.compare(password, storedHash);
 

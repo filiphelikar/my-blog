@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import Blogs from '@/components/Blogs'
 import { Blog } from '@/db/schema'
 import { getBlogs } from '@/utils/functions'
@@ -9,7 +9,7 @@ const AdminTable = () => {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const data = await getBlogs("/api/all/blogs")
+      const data = await getBlogs('/api/all/blogs')
       setBlogs(data)
     }
 

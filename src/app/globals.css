@@ -1,9 +1,9 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-boldonse: "Boldonse", system-ui;
+  --font-boldonse: 'Boldonse', system-ui;
 }
 
 :root {

@@ -1,7 +1,7 @@
 export async function getBlogs(url: string) {
     const res = await fetch(url);
     if (!res.ok) {
-        throw new Error("Failed to fetch blogs");
+        throw new Error('Failed to fetch blogs');
     }
     return res.json();
 }
@@ -12,9 +12,8 @@ export async function getServersideBlogs(url: string) {
     });
 
     if (!res.ok) {
-        throw new Error("Failed to fetch blogs");
+        throw new Error('Failed to fetch blogs');
     }
 
     return res.json();
 }
-

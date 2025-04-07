@@ -1,7 +1,7 @@
-import { db } from "@/db";
-import { blogs } from "@/db/schema";
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import { db } from '@/db';
+import { blogs } from '@/db/schema';
+import { NextResponse } from 'next/server';
+import { z } from 'zod';
 
 const blogSchema = z.object({
   title: z.string().min(3).max(50),
@@ -33,6 +33,6 @@ export async function POST(req: Request) {
     return NextResponse.json(newBlog);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+    return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
   }
 }

@@ -24,7 +24,7 @@ const OneBlog = async ({ params }: Params) => {
     }
 
     return <div>
-        <FullBlog  blog={blog} />
+        <FullBlog blog={blog} />
     </div>
 }
 
